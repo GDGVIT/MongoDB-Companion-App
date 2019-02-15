@@ -2,7 +2,7 @@ import React from 'react';
 import { View, Text, TouchableOpacity , FlatList, ToastAndroid } from 'react-native';
 import { getConnectionsAsync, deleteConnectionAsync } from '../../controllers';
 
-import Colors from '../../config/colors'
+import Colors from '../../config/colors';
 
 export class Connections extends React.Component {
 
@@ -37,6 +37,7 @@ export class Connections extends React.Component {
                             borderBottomColor: '#fff',
                             borderBottomWidth: 0.2
                         }}
+                        onPress={() => this.props.navigation.navigate('Collections')}
                         >
                             <Text>{item.favouriteName}</Text>
                         </TouchableOpacity>
