@@ -1,12 +1,13 @@
 import React from 'react';
 import { StyleSheet, View, TextInput, Text } from 'react-native';
 
-export default class Container extends React.Component {
+export class Container extends React.Component {
     render() {
         return (
             <View style={{
                 flex: 1,
-                justifyContent: 'center'
+                justifyContent: 'center',
+                paddingHorizontal: 10
             }}>
                 {this.props.children}
             </View>

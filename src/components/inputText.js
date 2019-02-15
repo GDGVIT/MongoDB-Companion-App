@@ -3,7 +3,7 @@ import { StyleSheet, View, TextInput, Text } from 'react-native';
 
 import Colors from '../config/colors'
 
-export default class InputText extends React.Component {
+export class InputText extends React.Component {
     render() {
         return (
             <View>
@@ -12,7 +12,7 @@ export default class InputText extends React.Component {
                         borderColor: this.props.color || Colors.outerSpace,
                         borderWidth: 1,
                         padding: 5,
-                        marginHorizontal: 25,
+                        marginHorizontal: 10,
                         marginVertical: 5,
                         borderRadius: 5,
                     }}

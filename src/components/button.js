@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 
 import Colors from '../config/colors'
 
-export default class Button extends React.Component {
+export class Button extends React.Component {
     render() {
         return (
             <View>
@@ -11,12 +11,13 @@ export default class Button extends React.Component {
                 style={{
                         backgroundColor: this.props.color || Colors.outerSpace,
                         paddingVertical: 15,
-                        marginHorizontal: 25,
+                        marginHorizontal: 10,
                         marginVertical: 5,
                         borderRadius: 5,
                         flexDirection: 'row',
                         justifyContent: 'space-around',
                     }}
+                onPress={this.props.onPress}
                 >
                     <Text
                     style={{
