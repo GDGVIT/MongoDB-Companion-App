@@ -7,7 +7,17 @@
     "test": "jest"
   },
   "dependencies": {
+    "apollo-boost": "^0.1.28",
+    "apollo-cache-inmemory": "^1.4.3",
+    "apollo-client": "^2.4.13",
+    "apollo-link": "^1.2.8",
+    "apollo-link-context": "^1.0.14",
+    "apollo-link-error": "^1.1.7",
+    "apollo-link-http": "^1.5.11",
+    "graphql": "^14.1.1",
+    "graphql-tag": "^2.10.1",
     "react": "16.6.3",
+    "react-apollo": "^2.4.1",
     "react-native": "0.58.4",
     "react-native-gesture-handler": "^1.0.15",
     "react-navigation": "^3.2.3"
