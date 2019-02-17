@@ -7,8 +7,8 @@ import gql from 'graphql-tag';
 import Colors from '../../config/colors'
 
 const GET_DOCUMENTS = gql`
-    query getDocuments($CollectionName: String){
-        collection(name: $CollectionName){
+    query getDocuments($collectionName: String){
+        collection(name: $collectionName){
             name,
             documents{
                 data
@@ -19,12 +19,12 @@ const GET_DOCUMENTS = gql`
 export class Documents extends React.Component {
 
     render() {
-        const CollectionName = this.props.navigation.getParam("collectionName", null);
-        
+        const collectionName = this.props.navigation.getParam("collectionName", null);
+
         return (
             <View>
                 <Text>Documents</Text>
-                <Query query={GET_DOCUMENTS} variables={{CollectionName: CollectionName}}>
+                <Query query={GET_DOCUMENTS} variables={{collectionName}}>
                 {({ data, loading, error }) => {
                     if (loading) return <ActivityIndicator size="large" color="#000" />;
                     if (error) {
@@ -35,8 +35,11 @@ export class Documents extends React.Component {
                     return (
                         <ScrollView>
                             {data.collection && data.collection.documents &&
-                                data.collection.documents.map(document => (
-                                    <View style={{flexDirection: 'row'}} key={document.data}>
+                                data.collection.documents.map(document => {
+                                    const documentData = JSON.parse(document.data);
+
+                                    return (
+                                        <View style={{flexDirection: 'row'}} key={document.data}>
                                         <TouchableOpacity
                                         style={{
                                             flex: 1,
@@ -46,9 +49,12 @@ export class Documents extends React.Component {
                                             borderBottomColor: '#fff',
                                             borderBottomWidth: 0.2
                                         }}
-                                        onPress={() => this.props.navigation.navigate("Documents")}
+                                        onPress={() => this.props.navigation.navigate("Document", {
+                                            collectionName,
+                                            documentId: documentData._id
+                                        })}
                                         >
-                                            <Text>{document.data}</Text>
+                                            <Text>{documentData._id}</Text>
                                         </TouchableOpacity>
                                         <TouchableOpacity
                                         style={{
@@ -69,7 +75,8 @@ export class Documents extends React.Component {
                                             <Text>X</Text>
                                         </TouchableOpacity>
                                     </View>
-                                ))}
+                                    )}
+                                    )}
                         </ScrollView>
                     );
                 }}
