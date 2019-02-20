@@ -1,7 +1,7 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, ToastAndroid, StyleSheet } from 'react-native';
 
-import { Query } from 'react-apollo';
+import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
 import Colors from '../../config/colors'
@@ -16,7 +16,18 @@ const GET_DOCUMENTS = gql`
         }
     }
 `;
+
+const DELETE_DOCUMENT = gql`
+    mutation deleteDocument($collectionName: String, $documentId: ID){
+        deleteDocument(collectionName: $collectionName, documentId: $documentId)
+    }
+`;
+
 export class Documents extends React.Component {
+
+    state = {
+        loading: false
+    }
 
     render() {
         const collectionName = this.props.navigation.getParam("collectionName", null);
@@ -31,7 +42,7 @@ export class Documents extends React.Component {
                         console.error(error)
                         return <Text> Error Fetching Data</Text>
                     };
-                    // Handle errors above ***
+                    
                     return (
                         <ScrollView>
                             {data.collection && data.collection.documents &&
@@ -56,24 +67,37 @@ export class Documents extends React.Component {
                                         >
                                             <Text>{documentData._id}</Text>
                                         </TouchableOpacity>
-                                        <TouchableOpacity
-                                        style={{
-                                            backgroundColor: Colors.pomegranate,
-                                            paddingHorizontal: 15,
-                                            paddingVertical: 20,
-                                        }}
-                                        onPress={async () => {
-                                            // await deleteConnectionAsync(item.favouriteName);
-                                            // let connections = this.state.connections;
-                                            // connections = connections.filter((connection) => {
-                                            //     return connection.favouriteName != item.favouriteName;
-                                            // });
-                                            // this.setState({connections});
-                                            // ToastAndroid.show('Deleted!', ToastAndroid.SHORT);
-                                        }}
-                                        >
-                                            <Text>X</Text>
-                                        </TouchableOpacity>
+
+                                        <Mutation mutation={DELETE_DOCUMENT} variables={{collectionName, documentId: documentData._id}} refetchQueries={() => [`getDocuments`]}>
+                                            {(deleteDocument, { data, error }) => {
+                                                if (error){
+                                                    console.log(error);
+                                                }
+                                                return (
+                                                    <TouchableOpacity
+                                                    style={{
+                                                        backgroundColor: Colors.pomegranate,
+                                                        paddingHorizontal: 15,
+                                                        paddingVertical: 20,
+                                                    }}
+                                                    onPress={async () => {
+                                                        this.setState({loading: true});
+                                                        try {
+                                                            await deleteDocument();
+                                                            this.setState({loading: false});
+                                                            ToastAndroid.show('Deleted!', ToastAndroid.SHORT);
+                                                        } catch (error) {
+                                                            this.setState({loading: false});
+                                                            ToastAndroid.show('Error', ToastAndroid.SHORT);
+                                                        }
+                                                    }}
+                                                    >
+                                                        <Text>X</Text>
+                                                    </TouchableOpacity>
+                                                    );
+                                                }}
+                                        </Mutation>
+
                                     </View>
                                     )}
                                     )}
@@ -81,7 +105,27 @@ export class Documents extends React.Component {
                     );
                 }}
             </Query>
+
+            {this.state.loading &&
+                <View style={styles.loading}>
+                    <ActivityIndicator size="large" color="#000" />
+                </View>
+            }
+
             </View>
         );
     }
 }
+
+const styles = StyleSheet.create({
+    loading: {
+        position: 'absolute',
+        left: 0,
+        right: 0,
+        top: 0,
+        bottom: 0,
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: '#F5FCFF88'
+    }
+});
