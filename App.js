@@ -9,18 +9,23 @@ import { setContext } from 'apollo-link-context';
 import { onError } from 'apollo-link-error';
 import { InMemoryCache } from 'apollo-cache-inmemory';
 
-import { API_URI } from './src/config'
+import { API_URI } from './src/config';
+
+import { getCurrentConnectionAsync } from './src/controllers'
 
 const httpLink = new HttpLink({
     uri: API_URI, 
 });
 
-const authLink = setContext((_, { headers }) => {
+const authLink = setContext(async (_, { headers }) => {
+
+    const currentConnection = await getCurrentConnectionAsync();
+
     return {
         headers: {
             ...headers,
-            mongodburi: "mongodb://test:test123@ds145563.mlab.com:45563",
-            database: "moneyledger"
+            mongodburi: currentConnection.mongoDBUri,
+            database: currentConnection.database
         }
     }
 });

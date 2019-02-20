@@ -19,7 +19,7 @@ export class AddConnection extends React.Component {
 
     addConnection = async () => {
         if(this.state.mongoDBUri && this.state.databaseName && this.state.favouriteName){
-            const result = await addConnectionAsync(this.state.favouriteName, `${this.state.mongoDBUri}/${this.state.databaseName}`);
+            const result = await addConnectionAsync(this.state.favouriteName, this.state.mongoDBUri, this.state.databaseName);
             ToastAndroid.show(result, ToastAndroid.SHORT);
         }
         else{

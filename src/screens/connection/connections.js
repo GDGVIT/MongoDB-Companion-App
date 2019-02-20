@@ -1,8 +1,9 @@
 import React from 'react';
 import { View, Text, TouchableOpacity , FlatList, ToastAndroid } from 'react-native';
-import { getConnectionsAsync, deleteConnectionAsync } from '../../controllers';
+import { getConnectionsAsync, deleteConnectionAsync, getConnectionAsync, DeleteAllConnectionsAsync, addCurrentConnectionAsync } from '../../controllers';
 
 import Colors from '../../config/colors';
+import { Button } from "../../components";
 
 export class Connections extends React.Component {
 
@@ -23,9 +24,14 @@ export class Connections extends React.Component {
         return (
             <View>
                 <Text>Connections</Text>
+                <Button onPress={ async () => {
+                    const deleteResponse = await DeleteAllConnectionsAsync();
+                    ToastAndroid.show(deleteResponse || 'Error!', ToastAndroid.SHORT);
+                }}>Clear Connections</Button>
+
                 <FlatList
                 data={this.state.connections}
-                keyExtractor={(item) => item.mongoDBString}
+                keyExtractor={(item) => item.favouriteName}
                 renderItem={({item}) => (
                     <View style={{flexDirection: 'row'}}>
                         <TouchableOpacity
@@ -37,7 +43,10 @@ export class Connections extends React.Component {
                             borderBottomColor: '#fff',
                             borderBottomWidth: 0.2
                         }}
-                        onPress={() => this.props.navigation.navigate('Collections')}
+                        onPress={async () => {
+                            await addCurrentConnectionAsync(item.favouriteName);
+                            this.props.navigation.navigate('Collections')
+                        }}
                         >
                             <Text>{item.favouriteName}</Text>
                         </TouchableOpacity>
