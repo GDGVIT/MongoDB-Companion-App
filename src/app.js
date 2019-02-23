@@ -50,6 +50,9 @@ const MongoDBCompanionRoot = createStackNavigator({
                     Documents: {
                         screen: Screens.Documents,
                     },
+                    AddDocument: {
+                        screen: Screens.AddDocument,
+                    },
                     Document: {
                         screen: Screens.Document,
                     },

@@ -5,33 +5,34 @@ import { Container, InputText, Button } from '../../components';
 import { Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
-const ADD_COLLECTION = gql`
-    mutation createCollection($collectionName: String){
-        createCollection(name: $collectionName){
-            name
+const ADD_DOCUMENT = gql`
+    mutation createDocument($collectionName: String, $documentData: String){
+        createDocument(collectionName: $collectionName, data: $documentData){
+            data
         }
     }
 `;
 
-export class AddCollection extends React.Component {
+export class AddDocument extends React.Component {
     
     static navigationOptions = {
-        headerTitle: "Add Connection"
+        headerTitle: "Add Document"
     }
 
     state = {
-        collectionName: "",
+        documentData: "",
         loading: false
     }
 
     render() {
+        const collectionName = this.props.navigation.getParam("collectionName", null);
+
         return (
             <Container>
-                <InputText placeholder="Collection Name" onChangeText={(collectionName) => this.setState({collectionName})} value={this.state.collectionName}/>
-                <Mutation mutation={ADD_COLLECTION} variables={{collectionName: this.state.collectionName}} refetchQueries={() => [`getCollections`]}>
+                <InputText multiline={true} placeholder="Document Data" onChangeText={(documentData) => this.setState({documentData})} value={this.state.documentData}/>
+                <Mutation mutation={ADD_DOCUMENT} variables={{collectionName, documentData: this.state.documentData}} refetchQueries={() => [`getDocuments`]}>
                     
-
-                    {(createCollection, { data, error }) => {
+                    {(createDocument, { data, error }) => {
                         if (error){
                             console.log(error);
                         }
@@ -40,7 +41,10 @@ export class AddCollection extends React.Component {
                             onPress={ async () => {
                                 this.setState({loading: true});
                                 try {
-                                    await createCollection();
+                                    const createDocumentResponse = await createDocument();
+                                    if(!createDocumentResponse.data.createDocument.data){
+                                        throw "Error";
+                                    }
                                     this.setState({loading: false});
                                     ToastAndroid.show('Success', ToastAndroid.SHORT);
                                     this.props.navigation.goBack();
@@ -49,7 +53,7 @@ export class AddCollection extends React.Component {
                                     ToastAndroid.show('Error', ToastAndroid.SHORT);
                                 }
                             }}
-                            >Add Collection</Button>
+                            >Add Document</Button>
                         );
                     }}
 

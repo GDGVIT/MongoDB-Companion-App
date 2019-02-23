@@ -1,5 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, ToastAndroid, StyleSheet } from 'react-native';
+import { Button } from '../../components';
 
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -45,6 +46,7 @@ export class Documents extends React.Component {
                     
                     return (
                         <ScrollView>
+                        <Button onPress={() => this.props.navigation.navigate('AddDocument', {collectionName})}>Add Document</Button>
                             {data.collection && data.collection.documents &&
                                 data.collection.documents.map(document => {
                                     const documentData = JSON.parse(document.data);
