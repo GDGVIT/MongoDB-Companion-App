@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, ToastAndroid, StyleSheet } from 'react-native';
-
+import { Container, InputText, Button } from '../../components';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -40,6 +40,7 @@ export class Collections extends React.Component {
                     // Handle errors above ***
                     return (
                         <ScrollView>
+                            <Button onPress={() => this.props.navigation.navigate('AddCollection')}>Add Collection</Button>
                             {data.collections &&
                                 data.collections.map(collection => (
                                     <View style={{flexDirection: 'row'}} key={collection.name}>
