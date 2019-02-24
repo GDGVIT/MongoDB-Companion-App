@@ -26,7 +26,7 @@ export class Collections extends React.Component {
         loading: false
     }
 
-    deleteCollection = (deleteDocument, collectionName) => {
+    deleteCollection = (deleteCollection, collectionName) => {
         Alert.alert(
             'Are you sure?',
             `Delete ${collectionName} collection`,
@@ -39,7 +39,7 @@ export class Collections extends React.Component {
                 {text: 'OK', onPress: async () => {
                     this.setState({loading: true});
                     try {
-                        await deleteDocument();
+                        await deleteCollection();
                         this.setState({loading: false});
                         ToastAndroid.show('Deleted!', ToastAndroid.SHORT);
                     } catch (error) {
@@ -86,7 +86,7 @@ export class Collections extends React.Component {
                                         </TouchableOpacity>
 
                                         <Mutation mutation={DELETE_COLLECTION} variables={{collectionName: collection.name}} refetchQueries={() => [`getCollections`]}>
-                                            {(deleteDocument, { data, error }) => {
+                                            {(deleteCollection, { data, error }) => {
                                                 if (error){
                                                     console.log(error);
                                                 }
@@ -98,7 +98,7 @@ export class Collections extends React.Component {
                                                         paddingHorizontal: 15,
                                                         paddingVertical: 20,
                                                     }}
-                                                    onPress={async () => this.deleteCollection(deleteDocument, collection.name)}
+                                                    onPress={async () => this.deleteCollection(deleteCollection, collection.name)}
                                                     >
                                                         <Text>X</Text>
                                                     </TouchableOpacity>
