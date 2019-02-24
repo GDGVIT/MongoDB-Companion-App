@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity , FlatList, ToastAndroid } from 'react-native';
+import { View, Text, TouchableOpacity , FlatList, ToastAndroid, Alert } from 'react-native';
 import { getConnectionsAsync, deleteConnectionAsync, getConnectionAsync, DeleteAllConnectionsAsync, addCurrentConnectionAsync } from '../../controllers';
 
 import Colors from '../../config/colors';
@@ -15,6 +15,47 @@ export class Connections extends React.Component {
         connections: []
     }
 
+    clearAllConnections = () => {
+        Alert.alert(
+            'Are you sure?',
+            'Clear All Colllections',
+            [
+                {
+                text: 'Cancel',
+                onPress: () => {},
+                style: 'cancel',
+                },
+                {text: 'OK', onPress: async () => {
+                    const deleteResponse = await DeleteAllConnectionsAsync();
+                    ToastAndroid.show(deleteResponse || 'Error!', ToastAndroid.SHORT);
+                }},
+            ],
+        );
+    }
+
+    deleteConnection = (favouriteName) => {
+        Alert.alert(
+            'Are you sure?',
+            `Delete ${favouriteName} connection`,
+            [
+                {
+                text: 'Cancel',
+                onPress: () => {},
+                style: 'cancel',
+                },
+                {text: 'OK', onPress: async () => {
+                    await deleteConnectionAsync(favouriteName);
+                    let connections = this.state.connections;
+                    connections = connections.filter((connection) => {
+                        return connection.favouriteName != favouriteName;
+                    });
+                    this.setState({connections});
+                    ToastAndroid.show('Deleted!', ToastAndroid.SHORT);
+                }},
+            ],
+        );
+    }
+
     componentDidMount = async () => {
         const connections = await getConnectionsAsync();
         this.setState({connections})
@@ -24,10 +65,7 @@ export class Connections extends React.Component {
         return (
             <View>
                 <Text>Connections</Text>
-                <Button onPress={ async () => {
-                    const deleteResponse = await DeleteAllConnectionsAsync();
-                    ToastAndroid.show(deleteResponse || 'Error!', ToastAndroid.SHORT);
-                }}>Clear Connections</Button>
+                <Button onPress={ () => this.clearAllConnections()}>Clear Connections</Button>
 
                 <FlatList
                 data={this.state.connections}
@@ -56,15 +94,7 @@ export class Connections extends React.Component {
                             paddingHorizontal: 15,
                             paddingVertical: 20,
                         }}
-                        onPress={async () => {
-                            await deleteConnectionAsync(item.favouriteName);
-                            let connections = this.state.connections;
-                            connections = connections.filter((connection) => {
-                                return connection.favouriteName != item.favouriteName;
-                            });
-                            this.setState({connections});
-                            ToastAndroid.show('Deleted!', ToastAndroid.SHORT);
-                        }}
+                        onPress={ () => this.deleteConnection(item.favouriteName)}
                         >
                             <Text>X</Text>
                         </TouchableOpacity>
