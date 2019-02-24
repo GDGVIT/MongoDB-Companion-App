@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, ActivityIndicator, ScrollView, TextInput, ToastAndroid, StyleSheet } from 'react-native';
+import { View, Text, ActivityIndicator, ScrollView, TextInput, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import { Button } from '../../components'
 
 import { Query, Mutation } from 'react-apollo';
@@ -59,6 +59,32 @@ class EditDocument extends React.Component {
         loading: false
     }
 
+    editDocument = (editDocument, documentId) => {
+        Alert.alert(
+            'Are you sure?',
+            `Edit ${documentId} document`,
+            [
+                {
+                text: 'Cancel',
+                onPress: () => {},
+                style: 'cancel',
+                },
+                {text: 'OK', onPress: async () => {
+                    this.setState({loading: true});
+                    try {
+                        await editDocument();
+                        this.setState({loading: false});
+                        ToastAndroid.show('Success', ToastAndroid.SHORT);
+                        this.props.navigation.goBack();
+                    } catch (error) {
+                        this.setState({loading: false});
+                        ToastAndroid.show('Error', ToastAndroid.SHORT);
+                    }
+                }},
+            ],
+        );
+    }
+
     componentDidMount() {
         this.setState({documentData: this.props.documentData});
     }
@@ -82,18 +108,7 @@ class EditDocument extends React.Component {
                         }
                         return (
                             <Button
-                            onPress={ async () => {
-                                this.setState({loading: true});
-                                try {
-                                    await editDocument();
-                                    this.setState({loading: false});
-                                    ToastAndroid.show('Success', ToastAndroid.SHORT);
-                                    this.props.navigation.goBack();
-                                } catch (error) {
-                                    this.setState({loading: false});
-                                    ToastAndroid.show('Error', ToastAndroid.SHORT);
-                                }
-                            }}
+                            onPress={ () => this.editDocument(editDocument, documentId) }
                             >Save</Button>
                         );
                     }}
