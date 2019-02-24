@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, ToastAndroid, StyleSheet } from 'react-native';
+import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, ToastAndroid, StyleSheet, Alert } from 'react-native';
 import { Button } from '../../components';
 
 import { Query, Mutation } from 'react-apollo';
@@ -28,6 +28,31 @@ export class Documents extends React.Component {
 
     state = {
         loading: false
+    }
+
+    deleteDocument = (deleteDocument, documentId) => {
+        Alert.alert(
+            'Are you sure?',
+            `Delete ${documentId} document`,
+            [
+                {
+                text: 'Cancel',
+                onPress: () => {},
+                style: 'cancel',
+                },
+                {text: 'OK', onPress: async () => {
+                    this.setState({loading: true});
+                    try {
+                        await deleteDocument();
+                        this.setState({loading: false});
+                        ToastAndroid.show('Deleted!', ToastAndroid.SHORT);
+                    } catch (error) {
+                        this.setState({loading: false});
+                        ToastAndroid.show('Error', ToastAndroid.SHORT);
+                    }
+                }},
+            ],
+        );
     }
 
     render() {
@@ -82,17 +107,7 @@ export class Documents extends React.Component {
                                                         paddingHorizontal: 15,
                                                         paddingVertical: 20,
                                                     }}
-                                                    onPress={async () => {
-                                                        this.setState({loading: true});
-                                                        try {
-                                                            await deleteDocument();
-                                                            this.setState({loading: false});
-                                                            ToastAndroid.show('Deleted!', ToastAndroid.SHORT);
-                                                        } catch (error) {
-                                                            this.setState({loading: false});
-                                                            ToastAndroid.show('Error', ToastAndroid.SHORT);
-                                                        }
-                                                    }}
+                                                    onPress={ () => this.deleteDocument(deleteDocument, documentData._id)}
                                                     >
                                                         <Text>X</Text>
                                                     </TouchableOpacity>

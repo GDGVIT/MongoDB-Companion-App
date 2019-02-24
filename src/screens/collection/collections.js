@@ -98,7 +98,7 @@ export class Collections extends React.Component {
                                                         paddingHorizontal: 15,
                                                         paddingVertical: 20,
                                                     }}
-                                                    onPress={async () => this.deleteCollection(deleteCollection, collection.name)}
+                                                    onPress={() => this.deleteCollection(deleteCollection, collection.name)}
                                                     >
                                                         <Text>X</Text>
                                                     </TouchableOpacity>
