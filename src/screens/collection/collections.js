@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, ToastAndroid, StyleSheet, Alert } from 'react-native';
-import { Container, InputText, Button } from '../../components';
+import { Button, ListItem } from '../../components';
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
 
@@ -71,43 +71,26 @@ export class Collections extends React.Component {
                             <Button onPress={() => this.props.navigation.navigate('AddCollection')}>Add Collection</Button>
                             {data.collections &&
                                 data.collections.map(collection => (
-                                    <View style={{flexDirection: 'row'}} key={collection.name}>
-                                        <TouchableOpacity
-                                        style={{
-                                            flex: 1,
-                                            paddingHorizontal: 15,
-                                            paddingVertical: 20,
-                                            backgroundColor: Colors.cararra,
-                                            borderBottomColor: '#fff',
-                                            borderBottomWidth: 0.2
-                                        }}
-                                        onPress={() => this.props.navigation.navigate("Documents", {
-                                            collectionName: collection.name
-                                        })}
-                                        >
-                                            <Text>{collection.name}</Text>
-                                        </TouchableOpacity>
-
-                                        <Mutation mutation={DELETE_COLLECTION} variables={{collectionName: collection.name}} refetchQueries={() => [`getCollections`]}>
-                                            {(deleteCollection, { data, error }) => {
-                                                if (error){
-                                                    console.log(error);
-                                                }
-                                                return (
-
-                                                    <TouchableOpacity
-                                                    style={{
-                                                        backgroundColor: Colors.pomegranate,
-                                                        paddingHorizontal: 15,
-                                                        paddingVertical: 20,
-                                                    }}
-                                                    onPress={() => this.deleteCollection(deleteCollection, collection.name)}
-                                                    >
-                                                        <Text>X</Text>
-                                                    </TouchableOpacity>
-                                                    );
-                                                }}
-                                        </Mutation>
+                                    <View key={collection.name}>
+                                    <Mutation mutation={DELETE_COLLECTION} variables={{collectionName: collection.name}} refetchQueries={() => [`getCollections`]}>
+                                    {(deleteCollection, { data, error }) => {
+                                        if (error){
+                                            console.log(error);
+                                        }
+                                        return (
+                                            <ListItem
+                                            icon="plug"
+                                            onPress={() => this.props.navigation.navigate("Documents", {
+                                                collectionName: collection.name
+                                            })}
+                                            onDeletePress={() => this.deleteCollection(deleteCollection, collection.name)}
+                                            >
+                                                {collection.name}
+                                            </ListItem>
+                                            );
+                                    }}
+                                        
+                                    </Mutation>
                                     </View>
                                 ))}
                         </ScrollView>

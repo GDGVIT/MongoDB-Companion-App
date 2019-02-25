@@ -63,7 +63,6 @@ export class Connections extends React.Component {
         return (
             <View>
                 <Button onPress={ () => this.clearAllConnections()}>Clear Connections</Button>
-
                 <FlatList
                 data={this.state.connections}
                 keyExtractor={(item) => item.favouriteName}
