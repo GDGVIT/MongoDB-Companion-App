@@ -26,6 +26,10 @@ const DELETE_DOCUMENT = gql`
 
 export class Documents extends React.Component {
 
+    static navigationOptions = {
+        title: 'Documents',
+    };
+
     state = {
         loading: false
     }
@@ -60,7 +64,6 @@ export class Documents extends React.Component {
 
         return (
             <View>
-                <Text>Documents</Text>
                 <Query query={GET_DOCUMENTS} variables={{collectionName}}>
                 {({ data, loading, error }) => {
                     if (loading) return <ActivityIndicator size="large" color="#000" />;

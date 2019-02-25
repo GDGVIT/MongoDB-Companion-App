@@ -22,6 +22,10 @@ const DELETE_COLLECTION = gql`
 
 export class Collections extends React.Component {
 
+    static navigationOptions = {
+        title: 'Collections',
+    };
+
     state = {
         loading: false
     }
@@ -54,7 +58,6 @@ export class Collections extends React.Component {
     render() {
         return (
             <View>
-                <Text>Collections</Text>
                 <Query query={GET_COLLECTIONS}>
                 {({ data, loading, error }) => {
                     if (loading) return <ActivityIndicator size="large" color="#000" />;

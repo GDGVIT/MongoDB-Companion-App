@@ -7,7 +7,7 @@ import Colors from '../../config/colors'
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 export const HeaderWithBack = (navigation, title) => ({
-    title: title.toUpperCase(),
+    title: title,
     headerStyle: {
         backgroundColor: 'transparent',
     },
@@ -26,7 +26,7 @@ export const HeaderWithBack = (navigation, title) => ({
 });
 
 export const HeaderWithDrawer = (navigation, title) => ({
-    title: title.toUpperCase(),
+    title: title,
     headerStyle: {
         backgroundColor: 'transparent'
     },

@@ -16,8 +16,8 @@ const ADD_COLLECTION = gql`
 export class AddCollection extends React.Component {
     
     static navigationOptions = {
-        headerTitle: "Add Connection"
-    }
+        title: 'Add Collection',
+    };
 
     state = {
         collectionName: "",

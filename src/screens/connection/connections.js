@@ -1,15 +1,13 @@
 import React from 'react';
 import { View, Text, TouchableOpacity , FlatList, ToastAndroid, Alert } from 'react-native';
 import { getConnectionsAsync, deleteConnectionAsync, getConnectionAsync, DeleteAllConnectionsAsync, addCurrentConnectionAsync } from '../../controllers';
-
+import { HeaderWithDrawer } from '../../components/header';
 import Colors from '../../config/colors';
 import { Button } from "../../components";
 
 export class Connections extends React.Component {
 
-    static navigationOptions = {
-        title: 'Connections',
-    };
+    static navigationOptions = ({ navigation }) => HeaderWithDrawer(navigation, 'Connections');
 
     state = {
         connections: []
@@ -64,7 +62,6 @@ export class Connections extends React.Component {
     render() {
         return (
             <View>
-                <Text>Connections</Text>
                 <Button onPress={ () => this.clearAllConnections()}>Clear Connections</Button>
 
                 <FlatList

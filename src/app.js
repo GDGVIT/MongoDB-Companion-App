@@ -57,7 +57,15 @@ const MongoDBCompanionRoot = createStackNavigator({
                         screen: Screens.Document,
                     },
                 }, {
-                    headerMode: 'none'
+                    defaultNavigationOptions: {
+                        headerStyle: {
+                            backgroundColor: '#fff',
+                        },
+                        headerTintColor: Colors.outerSpace,
+                        headerTitleStyle: {
+                            fontWeight: 'normal',
+                        },
+                    },
                 })
             },
             AddConnection: {

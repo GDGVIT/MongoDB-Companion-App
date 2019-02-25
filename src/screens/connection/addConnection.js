@@ -6,10 +6,6 @@ import { HeaderWithDrawer } from '../../components/header';
 import { addConnectionAsync, getConnectionsAsync } from '../../controllers';
 
 export class AddConnection extends React.Component {
-    
-    // static navigationOptions = {
-    //     headerTitle: "Add Connection"
-    // }
 
     static navigationOptions = ({ navigation }) => HeaderWithDrawer(navigation, 'Add Connection');
 

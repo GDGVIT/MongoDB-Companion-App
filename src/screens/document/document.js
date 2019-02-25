@@ -24,13 +24,16 @@ const EDIT_DOCUMENT = gql`
 
 export class Document extends React.Component {
 
+    static navigationOptions = {
+        headerTitle: "Document"
+    }
+
     render() {
         const collectionName = this.props.navigation.getParam("collectionName", null);
         const documentId = this.props.navigation.getParam("documentId", null);
 
         return (
             <ScrollView>
-                <Text>Document</Text>
                 <Query query={GET_DOCUMENT} variables={{collectionName, documentId}}>
                 {({ data, loading, error }) => {
                     if (loading) return <ActivityIndicator size="large" color="#000" />;
