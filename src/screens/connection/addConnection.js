@@ -2,14 +2,16 @@ import React from 'react';
 import { Text, ToastAndroid } from 'react-native';
 
 import { Container, InputText, Button } from '../../components';
-
+import { HeaderWithDrawer } from '../../components/header';
 import { addConnectionAsync, getConnectionsAsync } from '../../controllers';
 
 export class AddConnection extends React.Component {
     
-    static navigationOptions = {
-        headerTitle: "Add Connection"
-    }
+    // static navigationOptions = {
+    //     headerTitle: "Add Connection"
+    // }
+
+    static navigationOptions = ({ navigation }) => HeaderWithDrawer(navigation, 'Add Connection');
 
     state = {
         mongoDBUri: "",
