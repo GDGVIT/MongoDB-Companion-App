@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity , FlatList, ToastAndroid, Alert } from 're
 import { getConnectionsAsync, deleteConnectionAsync, getConnectionAsync, DeleteAllConnectionsAsync, addCurrentConnectionAsync } from '../../controllers';
 import { HeaderWithDrawer } from '../../components/header';
 import Colors from '../../config/colors';
-import { Button } from "../../components";
+import { Button, ListItem } from "../../components";
 
 export class Connections extends React.Component {
 
@@ -68,34 +68,18 @@ export class Connections extends React.Component {
                 data={this.state.connections}
                 keyExtractor={(item) => item.favouriteName}
                 renderItem={({item}) => (
-                    <View style={{flexDirection: 'row'}}>
-                        <TouchableOpacity
-                        style={{
-                            flex: 1,
-                            paddingHorizontal: 15,
-                            paddingVertical: 20,
-                            backgroundColor: Colors.cararra,
-                            borderBottomColor: '#fff',
-                            borderBottomWidth: 0.2
-                        }}
-                        onPress={async () => {
-                            await addCurrentConnectionAsync(item.favouriteName);
-                            this.props.navigation.navigate('Collections')
-                        }}
-                        >
-                            <Text>{item.favouriteName}</Text>
-                        </TouchableOpacity>
-                        <TouchableOpacity
-                        style={{
-                            backgroundColor: Colors.pomegranate,
-                            paddingHorizontal: 15,
-                            paddingVertical: 20,
-                        }}
-                        onPress={ () => this.deleteConnection(item.favouriteName)}
-                        >
-                            <Text>X</Text>
-                        </TouchableOpacity>
-                    </View>
+                    <ListItem
+                    icon="plug"
+                    onPress={async () => {
+                        await addCurrentConnectionAsync(item.favouriteName);
+                        this.props.navigation.navigate('Collections')
+                    }}
+                    onDeletePress={
+                        () => this.deleteConnection(item.favouriteName)
+                    }
+                    >
+                        {item.favouriteName}
+                    </ListItem>
                     )}
                 />
             </View>
