@@ -78,7 +78,6 @@ class EditDocument extends React.Component {
                         await editDocument();
                         this.setState({loading: false});
                         ToastAndroid.show('Success', ToastAndroid.SHORT);
-                        this.props.navigation.goBack();
                     } catch (error) {
                         this.setState({loading: false});
                         ToastAndroid.show('Error', ToastAndroid.SHORT);
