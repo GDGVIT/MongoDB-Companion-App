@@ -79,7 +79,7 @@ export class Collections extends React.Component {
                                         }
                                         return (
                                             <ListItem
-                                            icon="plug"
+                                            icon="files-o"
                                             onPress={() => this.props.navigation.navigate("Documents", {
                                                 collectionName: collection.name
                                             })}
@@ -89,7 +89,6 @@ export class Collections extends React.Component {
                                             </ListItem>
                                             );
                                     }}
-                                        
                                     </Mutation>
                                     </View>
                                 ))}

@@ -1,6 +1,6 @@
 import React from 'react';
 import { View, Text, TouchableOpacity, FlatList, ActivityIndicator, ScrollView, ToastAndroid, StyleSheet, Alert } from 'react-native';
-import { Button } from '../../components';
+import { Button, ListItem } from '../../components';
 
 import { Query, Mutation } from 'react-apollo';
 import gql from 'graphql-tag';
@@ -78,47 +78,28 @@ export class Documents extends React.Component {
                             {data.collection && data.collection.documents &&
                                 data.collection.documents.map(document => {
                                     const documentData = JSON.parse(document.data);
-
                                     return (
-                                        <View style={{flexDirection: 'row'}} key={document.data}>
-                                        <TouchableOpacity
-                                        style={{
-                                            flex: 1,
-                                            paddingHorizontal: 15,
-                                            paddingVertical: 20,
-                                            backgroundColor: Colors.cararra,
-                                            borderBottomColor: '#fff',
-                                            borderBottomWidth: 0.2
-                                        }}
-                                        onPress={() => this.props.navigation.navigate("Document", {
-                                            collectionName,
-                                            documentId: documentData._id
-                                        })}
-                                        >
-                                            <Text>{documentData._id}</Text>
-                                        </TouchableOpacity>
-
+                                        <View key={documentData._id}>
                                         <Mutation mutation={DELETE_DOCUMENT} variables={{collectionName, documentId: documentData._id}} refetchQueries={() => [`getDocuments`]}>
-                                            {(deleteDocument, { data, error }) => {
-                                                if (error){
-                                                    console.log(error);
-                                                }
-                                                return (
-                                                    <TouchableOpacity
-                                                    style={{
-                                                        backgroundColor: Colors.pomegranate,
-                                                        paddingHorizontal: 15,
-                                                        paddingVertical: 20,
-                                                    }}
-                                                    onPress={ () => this.deleteDocument(deleteDocument, documentData._id)}
-                                                    >
-                                                        <Text>X</Text>
-                                                    </TouchableOpacity>
-                                                    );
-                                                }}
+                                        {(deleteDocument, { data, error }) => {
+                                            if (error){
+                                                console.log(error);
+                                            }
+                                            return (
+                                                <ListItem
+                                                icon="file"
+                                                onPress={() => this.props.navigation.navigate("Document", {
+                                                    collectionName,
+                                                    documentId: documentData._id
+                                                })}
+                                                onDeletePress={() => this.deleteDocument(deleteDocument, documentData._id)}
+                                                >
+                                                    {documentData._id}
+                                                </ListItem>
+                                                );
+                                        }}
                                         </Mutation>
-
-                                    </View>
+                                        </View>
                                     )}
                                     )}
                         </ScrollView>
