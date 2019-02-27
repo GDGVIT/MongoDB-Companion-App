@@ -21,6 +21,7 @@ export class AddConnection extends React.Component {
         if(this.state.mongoDBUri && this.state.databaseName && this.state.favouriteName){
             const result = await addConnectionAsync(this.state.favouriteName, this.state.mongoDBUri, this.state.databaseName);
             ToastAndroid.show(result, ToastAndroid.SHORT);
+            this.props.navigation.goBack();
         }
         else{
             ToastAndroid.show('All fields are required!', ToastAndroid.SHORT);
