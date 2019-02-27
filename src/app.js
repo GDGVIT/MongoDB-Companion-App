@@ -31,15 +31,15 @@ const DrawerContent = (props) => (
 )
 
 const MongoDBCompanionRoot = createStackNavigator({
-    // First: {
-    //     screen: Screens.SplashScreen,
-    // },
     Home: {
         screen: createDrawerNavigator({
             Connections: {
                 screen: createStackNavigator({
                     Connections: {
                         screen: Screens.Connections,
+                    },
+                    AddConnection: {
+                        screen: Screens.AddConnection,
                     },
                     Collections: {
                         screen: Screens.Collections,
@@ -67,21 +67,6 @@ const MongoDBCompanionRoot = createStackNavigator({
                         },
                     },
                 })
-            },
-            AddConnection: {
-                screen: createStackNavigator({
-                    screen: Screens.AddConnection
-                },{
-                    defaultNavigationOptions: {
-                        headerStyle: {
-                            backgroundColor: '#fff',
-                        },
-                        headerTintColor: Colors.outerSpace,
-                        headerTitleStyle: {
-                            fontWeight: 'normal',
-                        },
-                    },
-                }),
             },
         }, {
             contentComponent: DrawerContent

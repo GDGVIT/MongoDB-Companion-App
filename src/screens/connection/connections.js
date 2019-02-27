@@ -62,6 +62,7 @@ export class Connections extends React.Component {
     render() {
         return (
             <View>
+                <Button onPress={ () => this.props.navigation.navigate("AddConnection")}>Add Connection</Button>
                 <Button onPress={ async () => {
                     const connections = await getConnectionsAsync();
                     this.setState({connections});
