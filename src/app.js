@@ -83,12 +83,6 @@ const MongoDBCompanionRoot = createStackNavigator({
                     },
                 }),
             },
-            Settings: {
-                screen: Screens.Settings
-            },
-            About: {
-                screen: Screens.About
-            }
         }, {
             contentComponent: DrawerContent
         }),
