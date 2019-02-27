@@ -7,7 +7,9 @@ import { addConnectionAsync, getConnectionsAsync } from '../../controllers';
 
 export class AddConnection extends React.Component {
 
-    static navigationOptions = ({ navigation }) => HeaderWithDrawer(navigation, 'Add Connection');
+    static navigationOptions = {
+        title: 'Add Connection'
+    };
 
     state = {
         mongoDBUri: "",

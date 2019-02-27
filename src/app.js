@@ -31,50 +31,38 @@ const DrawerContent = (props) => (
 )
 
 const MongoDBCompanionRoot = createStackNavigator({
-    Home: {
-        screen: createDrawerNavigator({
-            Connections: {
-                screen: createStackNavigator({
-                    Connections: {
-                        screen: Screens.Connections,
-                    },
-                    AddConnection: {
-                        screen: Screens.AddConnection,
-                    },
-                    Collections: {
-                        screen: Screens.Collections,
-                    },
-                    AddCollection: {
-                        screen: Screens.AddCollection,
-                    },
-                    Documents: {
-                        screen: Screens.Documents,
-                    },
-                    AddDocument: {
-                        screen: Screens.AddDocument,
-                    },
-                    Document: {
-                        screen: Screens.Document,
-                    },
-                }, {
-                    defaultNavigationOptions: {
-                        headerStyle: {
-                            backgroundColor: '#fff',
-                        },
-                        headerTintColor: Colors.outerSpace,
-                        headerTitleStyle: {
-                            fontWeight: 'normal',
-                        },
-                    },
-                })
+        Connections: {
+            screen: Screens.Connections,
+        },
+        AddConnection: {
+            screen: Screens.AddConnection,
+        },
+        Collections: {
+            screen: Screens.Collections,
+        },
+        AddCollection: {
+            screen: Screens.AddCollection,
+        },
+        Documents: {
+            screen: Screens.Documents,
+        },
+        AddDocument: {
+            screen: Screens.AddDocument,
+        },
+        Document: {
+            screen: Screens.Document,
+        },
+    }, {
+        defaultNavigationOptions: {
+            headerStyle: {
+                backgroundColor: '#fff',
             },
-        }, {
-            contentComponent: DrawerContent
-        }),
-    },
-},{
-    headerMode: 'none'
-});
+            headerTintColor: Colors.outerSpace,
+            headerTitleStyle: {
+                fontWeight: 'normal',
+            },
+        },
+    });
 
 const AppContainer = createAppContainer(MongoDBCompanionRoot);
 
@@ -91,11 +79,5 @@ export default class MongoDBCompanionApp extends React.Component {
 const styles = StyleSheet.create({
     container: {
             flex: 1,
-            // ...Platform.select({
-            //     android: {
-            //         marginTop: StatusBar.currentHeight
-            //     }
-            // })
-
         }
 })

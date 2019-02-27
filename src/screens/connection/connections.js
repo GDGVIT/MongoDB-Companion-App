@@ -7,7 +7,9 @@ import { Button, ListItem } from "../../components";
 
 export class Connections extends React.Component {
 
-    static navigationOptions = ({ navigation }) => HeaderWithDrawer(navigation, 'Connections');
+    static navigationOptions = {
+        title: 'Connections'
+    };
 
     state = {
         connections: []
