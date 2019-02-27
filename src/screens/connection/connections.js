@@ -56,13 +56,17 @@ export class Connections extends React.Component {
 
     componentDidMount = async () => {
         const connections = await getConnectionsAsync();
-        this.setState({connections})
+        this.setState({connections});
     }
 
     render() {
         return (
             <View>
-                <Button onPress={ () => this.clearAllConnections()}>Clear Connections</Button>
+                <Button onPress={ async () => {
+                    const connections = await getConnectionsAsync();
+                    this.setState({connections});
+                }}>Refresh Connections</Button>
+                <Button color={Colors.pomegranate} onPress={ () => this.clearAllConnections()}>Clear Connections</Button>
                 <FlatList
                 data={this.state.connections}
                 keyExtractor={(item) => item.favouriteName}
