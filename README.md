@@ -2,8 +2,8 @@
 MongoDB Companion App using React Native.
 
 Technologies used:
-- Apollo GraphQL Server
-- MongoDB NPM Package
+- React Native
+- Apollo GraphQL Client
 
 ## Installation
 
